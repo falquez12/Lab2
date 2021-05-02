@@ -9,7 +9,7 @@
 %%
 [0-9]+(\.[0-9.]+)?([eE][0-9]+)?  {yylval.f = atof(yytext); return NUM;}
 "return"                         {yylval.f = atof(yytext); return RETURN;}
-[’‘"'][A-Za-züÜáéíóúáéíóúÁÉÍÓÚ0-9 ]*[‘'"’]  {yylval.f = atof(yytext); return STRING;}
+[’‘"'][A-Za-züÜáéíóúáéíóúÁÉÍÓÚ0-9 ]*[‘'"’]  {yylval.f = atof(yytext); return STR;}
 
 [-+()*/]                         {return yytext[0];}
 [ \t\f\v\n]                      { ; }
