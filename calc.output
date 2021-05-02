@@ -1,0 +1,3451 @@
+State 51 conflicts: 4 shift/reduce
+State 52 conflicts: 4 shift/reduce
+State 84 conflicts: 11 reduce/reduce
+State 95 conflicts: 15 reduce/reduce
+
+
+Grammar
+
+    0 $accept: library END
+
+    1 library: functions
+
+    2 functions: functions IDENTIFIER paramdecls ':' stmt
+    3          | %empty
+
+    4 paramdecls: paramdecl
+    5           | %empty
+
+    6 paramdecl: paramdecl ',' IDENTIFIER
+    7          | IDENTIFIER
+
+    8 stmt: com_stmt '}'
+    9     | "if" '(' expr ')' stmt
+   10     | "while" '(' expr ')' stmt
+   11     | "return" expr ';'
+   12     | var_defs expr ';'
+   13     | expr expr ';'
+   14     | ';'
+
+   15 com_stmt: '{'
+   16         | com_stmt stmt
+
+   17 var_defs: "var" var_def1
+   18         | var_defs ',' var_def1
+
+   19 var_def1: IDENTIFIER '=' expr
+   20         | IDENTIFIER
+
+   21 expr: NUMCONST
+   22     | STRINGCONST
+   23     | IDENTIFIER
+   24     | '(' expr ')'
+   25     | expr '[' expr ']'
+   26     | expr '(' ')'
+   27     | expr '(' expr ')'
+   28     | expr '=' expr
+   29     | expr '+' expr
+   30     | expr '-' expr
+   31     | expr "+=" expr
+   32     | expr "-=" expr
+   33     | expr "||" expr
+   34     | expr "&&" expr
+   35     | expr "==" expr
+   36     | expr "!=" expr
+   37     | expr ',' expr
+   38     | '&' expr
+   39     | '*' expr
+   40     | '-' expr
+   41     | '!' expr
+   42     | "++" expr
+   43     | "--" expr
+   44     | expr "++"
+   45     | expr "--"
+   46     | expr '?' expr ':' expr
+
+
+Terminals, with rules where they appear
+
+    END (0) 0
+    '!' (33) 41
+    '&' (38) 38
+    '(' (40) 9 10 24 26 27
+    ')' (41) 9 10 24 26 27
+    '*' (42) 39
+    '+' (43) 29
+    ',' (44) 6 18 37
+    '-' (45) 30 40
+    ':' (58) 2 46
+    ';' (59) 11 12 13 14
+    '=' (61) 19 28
+    '?' (63) 46
+    '[' (91) 25
+    ']' (93) 25
+    '{' (123) 15
+    '}' (125) 8
+    error (256)
+    "return" (258) 11
+    "while" (259) 10
+    "if" (260) 9
+    "var" (261) 17
+    IDENTIFIER (262) 2 6 7 19 20 23
+    NUMCONST (263) 21
+    STRINGCONST (264) 22
+    "||" (265) 33
+    "&&" (266) 34
+    "==" (267) 35
+    "!=" (268) 36
+    "++" (269) 42 44
+    "--" (270) 43 45
+    "+=" (271) 31
+    "-=" (272) 32
+
+
+Nonterminals, with rules where they appear
+
+    $accept (34)
+        on left: 0
+    library (35)
+        on left: 1
+        on right: 0
+    functions (36)
+        on left: 2 3
+        on right: 1 2
+    paramdecls (37)
+        on left: 4 5
+        on right: 2
+    paramdecl (38)
+        on left: 6 7
+        on right: 4 6
+    stmt (39)
+        on left: 8 9 10 11 12 13 14
+        on right: 2 9 10 16
+    com_stmt (40)
+        on left: 15 16
+        on right: 8 16
+    var_defs (41)
+        on left: 17 18
+        on right: 12 18
+    var_def1 (42)
+        on left: 19 20
+        on right: 17 18
+    expr (43)
+        on left: 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
+        on right: 9 10 11 12 13 19 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
+
+
+State 0
+
+    0 $accept: . library END
+    1 library: . functions
+    2 functions: . functions IDENTIFIER paramdecls ':' stmt
+    3          | . %empty
+
+    $default  reduce using rule 3 (functions)
+
+    library    go to state 1
+    functions  go to state 2
+
+
+State 1
+
+    0 $accept: library . END
+
+    END  shift, and go to state 3
+
+
+State 2
+
+    1 library: functions .  [END]
+    2 functions: functions . IDENTIFIER paramdecls ':' stmt
+
+    IDENTIFIER  shift, and go to state 4
+
+    $default  reduce using rule 1 (library)
+
+
+State 3
+
+    0 $accept: library END .
+
+    $default  accept
+
+
+State 4
+
+    2 functions: functions IDENTIFIER . paramdecls ':' stmt
+    4 paramdecls: . paramdecl
+    5           | . %empty  [':']
+    6 paramdecl: . paramdecl ',' IDENTIFIER
+    7          | . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 5
+
+    $default  reduce using rule 5 (paramdecls)
+
+    paramdecls  go to state 6
+    paramdecl   go to state 7
+
+
+State 5
+
+    7 paramdecl: IDENTIFIER .
+
+    $default  reduce using rule 7 (paramdecl)
+
+
+State 6
+
+    2 functions: functions IDENTIFIER paramdecls . ':' stmt
+
+    ':'  shift, and go to state 8
+
+
+State 7
+
+    4 paramdecls: paramdecl .  [':']
+    6 paramdecl: paramdecl . ',' IDENTIFIER
+
+    ','  shift, and go to state 9
+
+    $default  reduce using rule 4 (paramdecls)
+
+
+State 8
+
+    2 functions: functions IDENTIFIER paramdecls ':' . stmt
+    8 stmt: . com_stmt '}'
+    9     | . "if" '(' expr ')' stmt
+   10     | . "while" '(' expr ')' stmt
+   11     | . "return" expr ';'
+   12     | . var_defs expr ';'
+   13     | . expr expr ';'
+   14     | . ';'
+   15 com_stmt: . '{'
+   16         | . com_stmt stmt
+   17 var_defs: . "var" var_def1
+   18         | . var_defs ',' var_def1
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    "return"     shift, and go to state 10
+    "while"      shift, and go to state 11
+    "if"         shift, and go to state 12
+    "var"        shift, and go to state 13
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    ';'          shift, and go to state 23
+    '{'          shift, and go to state 24
+    '!'          shift, and go to state 25
+
+    stmt      go to state 26
+    com_stmt  go to state 27
+    var_defs  go to state 28
+    expr      go to state 29
+
+
+State 9
+
+    6 paramdecl: paramdecl ',' . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 30
+
+
+State 10
+
+   11 stmt: "return" . expr ';'
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 31
+
+
+State 11
+
+   10 stmt: "while" . '(' expr ')' stmt
+
+    '('  shift, and go to state 32
+
+
+State 12
+
+    9 stmt: "if" . '(' expr ')' stmt
+
+    '('  shift, and go to state 33
+
+
+State 13
+
+   17 var_defs: "var" . var_def1
+   19 var_def1: . IDENTIFIER '=' expr
+   20         | . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 34
+
+    var_def1  go to state 35
+
+
+State 14
+
+   23 expr: IDENTIFIER .
+
+    $default  reduce using rule 23 (expr)
+
+
+State 15
+
+   21 expr: NUMCONST .
+
+    $default  reduce using rule 21 (expr)
+
+
+State 16
+
+   22 expr: STRINGCONST .
+
+    $default  reduce using rule 22 (expr)
+
+
+State 17
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   42     | "++" . expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 36
+
+
+State 18
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   43     | "--" . expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 37
+
+
+State 19
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   40     | '-' . expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 38
+
+
+State 20
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   39     | '*' . expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 39
+
+
+State 21
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   38     | '&' . expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 40
+
+
+State 22
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   24     | '(' . expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 41
+
+
+State 23
+
+   14 stmt: ';' .
+
+    $default  reduce using rule 14 (stmt)
+
+
+State 24
+
+   15 com_stmt: '{' .
+
+    $default  reduce using rule 15 (com_stmt)
+
+
+State 25
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   41     | '!' . expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 42
+
+
+State 26
+
+    2 functions: functions IDENTIFIER paramdecls ':' stmt .
+
+    $default  reduce using rule 2 (functions)
+
+
+State 27
+
+    8 stmt: . com_stmt '}'
+    8     | com_stmt . '}'
+    9     | . "if" '(' expr ')' stmt
+   10     | . "while" '(' expr ')' stmt
+   11     | . "return" expr ';'
+   12     | . var_defs expr ';'
+   13     | . expr expr ';'
+   14     | . ';'
+   15 com_stmt: . '{'
+   16         | . com_stmt stmt
+   16         | com_stmt . stmt
+   17 var_defs: . "var" var_def1
+   18         | . var_defs ',' var_def1
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    "return"     shift, and go to state 10
+    "while"      shift, and go to state 11
+    "if"         shift, and go to state 12
+    "var"        shift, and go to state 13
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '}'          shift, and go to state 43
+    ';'          shift, and go to state 23
+    '{'          shift, and go to state 24
+    '!'          shift, and go to state 25
+
+    stmt      go to state 44
+    com_stmt  go to state 27
+    var_defs  go to state 28
+    expr      go to state 29
+
+
+State 28
+
+   12 stmt: var_defs . expr ';'
+   18 var_defs: var_defs . ',' var_def1
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    ','          shift, and go to state 45
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 46
+
+
+State 29
+
+   13 stmt: expr . expr ';'
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   25     | expr . '[' expr ']'
+   26     | . expr '(' ')'
+   26     | expr . '(' ')'
+   27     | . expr '(' expr ')'
+   27     | expr . '(' expr ')'
+   28     | . expr '=' expr
+   28     | expr . '=' expr
+   29     | . expr '+' expr
+   29     | expr . '+' expr
+   30     | . expr '-' expr
+   30     | expr . '-' expr
+   31     | . expr "+=" expr
+   31     | expr . "+=" expr
+   32     | . expr "-=" expr
+   32     | expr . "-=" expr
+   33     | . expr "||" expr
+   33     | expr . "||" expr
+   34     | . expr "&&" expr
+   34     | expr . "&&" expr
+   35     | . expr "==" expr
+   35     | expr . "==" expr
+   36     | . expr "!=" expr
+   36     | expr . "!=" expr
+   37     | . expr ',' expr
+   37     | expr . ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   44     | expr . "++"
+   45     | . expr "--"
+   45     | expr . "--"
+   46     | . expr '?' expr ':' expr
+   46     | expr . '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "||"         shift, and go to state 47
+    "&&"         shift, and go to state 48
+    "=="         shift, and go to state 49
+    "!="         shift, and go to state 50
+    "++"         shift, and go to state 51
+    "--"         shift, and go to state 52
+    "+="         shift, and go to state 53
+    "-="         shift, and go to state 54
+    ','          shift, and go to state 55
+    '?'          shift, and go to state 56
+    '='          shift, and go to state 57
+    '+'          shift, and go to state 58
+    '-'          shift, and go to state 59
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 60
+    '['          shift, and go to state 61
+    '!'          shift, and go to state 25
+
+    expr  go to state 62
+
+
+State 30
+
+    6 paramdecl: paramdecl ',' IDENTIFIER .
+
+    $default  reduce using rule 6 (paramdecl)
+
+
+State 31
+
+   11 stmt: "return" expr . ';'
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    ','   shift, and go to state 55
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+    ';'   shift, and go to state 67
+
+
+State 32
+
+   10 stmt: "while" '(' . expr ')' stmt
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 68
+
+
+State 33
+
+    9 stmt: "if" '(' . expr ')' stmt
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 69
+
+
+State 34
+
+   19 var_def1: IDENTIFIER . '=' expr
+   20         | IDENTIFIER .  [IDENTIFIER, NUMCONST, STRINGCONST, "++", "--", ',', '-', '*', '&', '(', '!']
+
+    '='  shift, and go to state 70
+
+    $default  reduce using rule 20 (var_def1)
+
+
+State 35
+
+   17 var_defs: "var" var_def1 .
+
+    $default  reduce using rule 17 (var_defs)
+
+
+State 36
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   42     | "++" expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', ':', '=', '+', '-', '*', '&', ')', ';', ']', '!']
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 42 (expr)
+
+    Conflict between rule 42 and token "||" resolved as reduce ("||" < "++").
+    Conflict between rule 42 and token "&&" resolved as reduce ("&&" < "++").
+    Conflict between rule 42 and token "==" resolved as reduce ("==" < "++").
+    Conflict between rule 42 and token "!=" resolved as reduce ("!=" < "++").
+    Conflict between rule 42 and token "++" resolved as shift (%right "++").
+    Conflict between rule 42 and token "--" resolved as shift (%right "--").
+    Conflict between rule 42 and token "+=" resolved as reduce ("+=" < "++").
+    Conflict between rule 42 and token "-=" resolved as reduce ("-=" < "++").
+    Conflict between rule 42 and token ',' resolved as reduce (',' < "++").
+    Conflict between rule 42 and token '?' resolved as reduce ('?' < "++").
+    Conflict between rule 42 and token '=' resolved as reduce ('=' < "++").
+    Conflict between rule 42 and token '+' resolved as reduce ('+' < "++").
+    Conflict between rule 42 and token '-' resolved as reduce ('-' < "++").
+    Conflict between rule 42 and token '(' resolved as shift ("++" < '(').
+    Conflict between rule 42 and token '[' resolved as shift ("++" < '[').
+
+
+State 37
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   43     | "--" expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', ':', '=', '+', '-', '*', '&', ')', ';', ']', '!']
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 43 (expr)
+
+    Conflict between rule 43 and token "||" resolved as reduce ("||" < "++").
+    Conflict between rule 43 and token "&&" resolved as reduce ("&&" < "++").
+    Conflict between rule 43 and token "==" resolved as reduce ("==" < "++").
+    Conflict between rule 43 and token "!=" resolved as reduce ("!=" < "++").
+    Conflict between rule 43 and token "++" resolved as shift (%right "++").
+    Conflict between rule 43 and token "--" resolved as shift (%right "--").
+    Conflict between rule 43 and token "+=" resolved as reduce ("+=" < "++").
+    Conflict between rule 43 and token "-=" resolved as reduce ("-=" < "++").
+    Conflict between rule 43 and token ',' resolved as reduce (',' < "++").
+    Conflict between rule 43 and token '?' resolved as reduce ('?' < "++").
+    Conflict between rule 43 and token '=' resolved as reduce ('=' < "++").
+    Conflict between rule 43 and token '+' resolved as reduce ('+' < "++").
+    Conflict between rule 43 and token '-' resolved as reduce ('-' < "++").
+    Conflict between rule 43 and token '(' resolved as shift ("++" < '(').
+    Conflict between rule 43 and token '[' resolved as shift ("++" < '[').
+
+
+State 38
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   40     | '-' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', ':', '=', '+', '-', '*', '&', ')', ';', ']', '!']
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 40 (expr)
+
+    Conflict between rule 40 and token "||" resolved as reduce ("||" < '&').
+    Conflict between rule 40 and token "&&" resolved as reduce ("&&" < '&').
+    Conflict between rule 40 and token "==" resolved as reduce ("==" < '&').
+    Conflict between rule 40 and token "!=" resolved as reduce ("!=" < '&').
+    Conflict between rule 40 and token "++" resolved as shift (%right "++").
+    Conflict between rule 40 and token "--" resolved as shift (%right "--").
+    Conflict between rule 40 and token "+=" resolved as reduce ("+=" < '&').
+    Conflict between rule 40 and token "-=" resolved as reduce ("-=" < '&').
+    Conflict between rule 40 and token ',' resolved as reduce (',' < '&').
+    Conflict between rule 40 and token '?' resolved as reduce ('?' < '&').
+    Conflict between rule 40 and token '=' resolved as reduce ('=' < '&').
+    Conflict between rule 40 and token '+' resolved as reduce ('+' < '&').
+    Conflict between rule 40 and token '-' resolved as reduce ('-' < '&').
+    Conflict between rule 40 and token '(' resolved as shift ('&' < '(').
+    Conflict between rule 40 and token '[' resolved as shift ('&' < '[').
+
+
+State 39
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   39     | '*' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', ':', '=', '+', '-', '*', '&', ')', ';', ']', '!']
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 39 (expr)
+
+    Conflict between rule 39 and token "||" resolved as reduce ("||" < '&').
+    Conflict between rule 39 and token "&&" resolved as reduce ("&&" < '&').
+    Conflict between rule 39 and token "==" resolved as reduce ("==" < '&').
+    Conflict between rule 39 and token "!=" resolved as reduce ("!=" < '&').
+    Conflict between rule 39 and token "++" resolved as shift (%right "++").
+    Conflict between rule 39 and token "--" resolved as shift (%right "--").
+    Conflict between rule 39 and token "+=" resolved as reduce ("+=" < '&').
+    Conflict between rule 39 and token "-=" resolved as reduce ("-=" < '&').
+    Conflict between rule 39 and token ',' resolved as reduce (',' < '&').
+    Conflict between rule 39 and token '?' resolved as reduce ('?' < '&').
+    Conflict between rule 39 and token '=' resolved as reduce ('=' < '&').
+    Conflict between rule 39 and token '+' resolved as reduce ('+' < '&').
+    Conflict between rule 39 and token '-' resolved as reduce ('-' < '&').
+    Conflict between rule 39 and token '(' resolved as shift ('&' < '(').
+    Conflict between rule 39 and token '[' resolved as shift ('&' < '[').
+
+
+State 40
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   38     | '&' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', ':', '=', '+', '-', '*', '&', ')', ';', ']', '!']
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 38 (expr)
+
+    Conflict between rule 38 and token "||" resolved as reduce ("||" < '&').
+    Conflict between rule 38 and token "&&" resolved as reduce ("&&" < '&').
+    Conflict between rule 38 and token "==" resolved as reduce ("==" < '&').
+    Conflict between rule 38 and token "!=" resolved as reduce ("!=" < '&').
+    Conflict between rule 38 and token "++" resolved as shift (%right "++").
+    Conflict between rule 38 and token "--" resolved as shift (%right "--").
+    Conflict between rule 38 and token "+=" resolved as reduce ("+=" < '&').
+    Conflict between rule 38 and token "-=" resolved as reduce ("-=" < '&').
+    Conflict between rule 38 and token ',' resolved as reduce (',' < '&').
+    Conflict between rule 38 and token '?' resolved as reduce ('?' < '&').
+    Conflict between rule 38 and token '=' resolved as reduce ('=' < '&').
+    Conflict between rule 38 and token '+' resolved as reduce ('+' < '&').
+    Conflict between rule 38 and token '-' resolved as reduce ('-' < '&').
+    Conflict between rule 38 and token '(' resolved as shift ('&' < '(').
+    Conflict between rule 38 and token '[' resolved as shift ('&' < '[').
+
+
+State 41
+
+   24 expr: '(' expr . ')'
+   25     | expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    ','   shift, and go to state 55
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+    ')'   shift, and go to state 71
+
+
+State 42
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   41     | '!' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', ':', '=', '+', '-', '*', '&', ')', ';', ']', '!']
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 41 (expr)
+
+    Conflict between rule 41 and token "||" resolved as reduce ("||" < '&').
+    Conflict between rule 41 and token "&&" resolved as reduce ("&&" < '&').
+    Conflict between rule 41 and token "==" resolved as reduce ("==" < '&').
+    Conflict between rule 41 and token "!=" resolved as reduce ("!=" < '&').
+    Conflict between rule 41 and token "++" resolved as shift (%right "++").
+    Conflict between rule 41 and token "--" resolved as shift (%right "--").
+    Conflict between rule 41 and token "+=" resolved as reduce ("+=" < '&').
+    Conflict between rule 41 and token "-=" resolved as reduce ("-=" < '&').
+    Conflict between rule 41 and token ',' resolved as reduce (',' < '&').
+    Conflict between rule 41 and token '?' resolved as reduce ('?' < '&').
+    Conflict between rule 41 and token '=' resolved as reduce ('=' < '&').
+    Conflict between rule 41 and token '+' resolved as reduce ('+' < '&').
+    Conflict between rule 41 and token '-' resolved as reduce ('-' < '&').
+    Conflict between rule 41 and token '(' resolved as shift ('&' < '(').
+    Conflict between rule 41 and token '[' resolved as shift ('&' < '[').
+
+
+State 43
+
+    8 stmt: com_stmt '}' .
+
+    $default  reduce using rule 8 (stmt)
+
+
+State 44
+
+   16 com_stmt: com_stmt stmt .
+
+    $default  reduce using rule 16 (com_stmt)
+
+
+State 45
+
+   18 var_defs: var_defs ',' . var_def1
+   19 var_def1: . IDENTIFIER '=' expr
+   20         | . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 34
+
+    var_def1  go to state 72
+
+
+State 46
+
+   12 stmt: var_defs expr . ';'
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    ','   shift, and go to state 55
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+    ';'   shift, and go to state 73
+
+
+State 47
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   33     | expr "||" . expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 74
+
+
+State 48
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   34     | expr "&&" . expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 75
+
+
+State 49
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   35     | expr "==" . expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 76
+
+
+State 50
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   36     | expr "!=" . expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 77
+
+
+State 51
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   42     | "++" . expr
+   43     | . "--" expr
+   44     | . expr "++"
+   44     | expr "++" .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', '=', '+', '-', '*', '[', '!']
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    IDENTIFIER   [reduce using rule 44 (expr)]
+    NUMCONST     [reduce using rule 44 (expr)]
+    STRINGCONST  [reduce using rule 44 (expr)]
+    '!'          [reduce using rule 44 (expr)]
+    $default     reduce using rule 44 (expr)
+
+    expr  go to state 36
+
+    Conflict between rule 44 and token "++" resolved as shift (%right "++").
+    Conflict between rule 44 and token "--" resolved as shift (%right "--").
+    Conflict between rule 44 and token '-' resolved as reduce ('-' < "++").
+    Conflict between rule 44 and token '*' resolved as reduce ('*' < "++").
+    Conflict between rule 44 and token '&' resolved as shift (%right '&').
+    Conflict between rule 44 and token '(' resolved as shift ("++" < '(').
+
+
+State 52
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   43     | "--" . expr
+   44     | . expr "++"
+   45     | . expr "--"
+   45     | expr "--" .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', '=', '+', '-', '*', '[', '!']
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    IDENTIFIER   [reduce using rule 45 (expr)]
+    NUMCONST     [reduce using rule 45 (expr)]
+    STRINGCONST  [reduce using rule 45 (expr)]
+    '!'          [reduce using rule 45 (expr)]
+    $default     reduce using rule 45 (expr)
+
+    expr  go to state 37
+
+    Conflict between rule 45 and token "++" resolved as shift (%right "++").
+    Conflict between rule 45 and token "--" resolved as shift (%right "--").
+    Conflict between rule 45 and token '-' resolved as reduce ('-' < "++").
+    Conflict between rule 45 and token '*' resolved as reduce ('*' < "++").
+    Conflict between rule 45 and token '&' resolved as shift (%right '&').
+    Conflict between rule 45 and token '(' resolved as shift ("++" < '(').
+
+
+State 53
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   31     | expr "+=" . expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 78
+
+
+State 54
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   32     | expr "-=" . expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 79
+
+
+State 55
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   37     | expr ',' . expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 80
+
+
+State 56
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+   46     | expr '?' . expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 81
+
+
+State 57
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   28     | expr '=' . expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 82
+
+
+State 58
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   29     | expr '+' . expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 83
+
+
+State 59
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   30     | expr '-' . expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   40     | '-' . expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 84
+
+
+State 60
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   24     | '(' . expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   26     | expr '(' . ')'
+   27     | . expr '(' expr ')'
+   27     | expr '(' . expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    ')'          shift, and go to state 85
+    '!'          shift, and go to state 25
+
+    expr  go to state 86
+
+
+State 61
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   25     | expr '[' . expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 87
+
+
+State 62
+
+   13 stmt: expr expr . ';'
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    ','   shift, and go to state 55
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+    ';'   shift, and go to state 88
+
+
+State 63
+
+   44 expr: expr "++" .
+
+    $default  reduce using rule 44 (expr)
+
+
+State 64
+
+   45 expr: expr "--" .
+
+    $default  reduce using rule 45 (expr)
+
+
+State 65
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   30     | expr '-' . expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 89
+
+
+State 66
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   26     | expr '(' . ')'
+   27     | . expr '(' expr ')'
+   27     | expr '(' . expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    ')'          shift, and go to state 85
+    '!'          shift, and go to state 25
+
+    expr  go to state 90
+
+
+State 67
+
+   11 stmt: "return" expr ';' .
+
+    $default  reduce using rule 11 (stmt)
+
+
+State 68
+
+   10 stmt: "while" '(' expr . ')' stmt
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    ','   shift, and go to state 55
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+    ')'   shift, and go to state 91
+
+
+State 69
+
+    9 stmt: "if" '(' expr . ')' stmt
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    ','   shift, and go to state 55
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+    ')'   shift, and go to state 92
+
+
+State 70
+
+   19 var_def1: IDENTIFIER '=' . expr
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 93
+
+
+State 71
+
+   24 expr: '(' expr ')' .
+
+    $default  reduce using rule 24 (expr)
+
+
+State 72
+
+   18 var_defs: var_defs ',' var_def1 .
+
+    $default  reduce using rule 18 (var_defs)
+
+
+State 73
+
+   12 stmt: var_defs expr ';' .
+
+    $default  reduce using rule 12 (stmt)
+
+
+State 74
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   33     | expr "||" expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "+=", "-=", ',', '?', ':', '=', '*', '&', ')', ';', ']', '!']
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 33 (expr)
+
+    Conflict between rule 33 and token "||" resolved as reduce (%left "||").
+    Conflict between rule 33 and token "&&" resolved as shift ("||" < "&&").
+    Conflict between rule 33 and token "==" resolved as shift ("||" < "==").
+    Conflict between rule 33 and token "!=" resolved as shift ("||" < "!=").
+    Conflict between rule 33 and token "++" resolved as shift ("||" < "++").
+    Conflict between rule 33 and token "--" resolved as shift ("||" < "--").
+    Conflict between rule 33 and token "+=" resolved as reduce ("+=" < "||").
+    Conflict between rule 33 and token "-=" resolved as reduce ("-=" < "||").
+    Conflict between rule 33 and token ',' resolved as reduce (',' < "||").
+    Conflict between rule 33 and token '?' resolved as reduce ('?' < "||").
+    Conflict between rule 33 and token '=' resolved as reduce ('=' < "||").
+    Conflict between rule 33 and token '+' resolved as shift ("||" < '+').
+    Conflict between rule 33 and token '-' resolved as shift ("||" < '-').
+    Conflict between rule 33 and token '(' resolved as shift ("||" < '(').
+    Conflict between rule 33 and token '[' resolved as shift ("||" < '[').
+
+
+State 75
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   34     | expr "&&" expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "+=", "-=", ',', '?', ':', '=', '*', '&', ')', ';', ']', '!']
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 34 (expr)
+
+    Conflict between rule 34 and token "||" resolved as reduce ("||" < "&&").
+    Conflict between rule 34 and token "&&" resolved as reduce (%left "&&").
+    Conflict between rule 34 and token "==" resolved as shift ("&&" < "==").
+    Conflict between rule 34 and token "!=" resolved as shift ("&&" < "!=").
+    Conflict between rule 34 and token "++" resolved as shift ("&&" < "++").
+    Conflict between rule 34 and token "--" resolved as shift ("&&" < "--").
+    Conflict between rule 34 and token "+=" resolved as reduce ("+=" < "&&").
+    Conflict between rule 34 and token "-=" resolved as reduce ("-=" < "&&").
+    Conflict between rule 34 and token ',' resolved as reduce (',' < "&&").
+    Conflict between rule 34 and token '?' resolved as reduce ('?' < "&&").
+    Conflict between rule 34 and token '=' resolved as reduce ('=' < "&&").
+    Conflict between rule 34 and token '+' resolved as shift ("&&" < '+').
+    Conflict between rule 34 and token '-' resolved as shift ("&&" < '-').
+    Conflict between rule 34 and token '(' resolved as shift ("&&" < '(').
+    Conflict between rule 34 and token '[' resolved as shift ("&&" < '[').
+
+
+State 76
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   35     | expr "==" expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', ':', '=', '*', '&', ')', ';', ']', '!']
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 35 (expr)
+
+    Conflict between rule 35 and token "||" resolved as reduce ("||" < "==").
+    Conflict between rule 35 and token "&&" resolved as reduce ("&&" < "==").
+    Conflict between rule 35 and token "==" resolved as reduce (%left "==").
+    Conflict between rule 35 and token "!=" resolved as reduce (%left "!=").
+    Conflict between rule 35 and token "++" resolved as shift ("==" < "++").
+    Conflict between rule 35 and token "--" resolved as shift ("==" < "--").
+    Conflict between rule 35 and token "+=" resolved as reduce ("+=" < "==").
+    Conflict between rule 35 and token "-=" resolved as reduce ("-=" < "==").
+    Conflict between rule 35 and token ',' resolved as reduce (',' < "==").
+    Conflict between rule 35 and token '?' resolved as reduce ('?' < "==").
+    Conflict between rule 35 and token '=' resolved as reduce ('=' < "==").
+    Conflict between rule 35 and token '+' resolved as shift ("==" < '+').
+    Conflict between rule 35 and token '-' resolved as shift ("==" < '-').
+    Conflict between rule 35 and token '(' resolved as shift ("==" < '(').
+    Conflict between rule 35 and token '[' resolved as shift ("==" < '[').
+
+
+State 77
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   36     | expr "!=" expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', ':', '=', '*', '&', ')', ';', ']', '!']
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 36 (expr)
+
+    Conflict between rule 36 and token "||" resolved as reduce ("||" < "!=").
+    Conflict between rule 36 and token "&&" resolved as reduce ("&&" < "!=").
+    Conflict between rule 36 and token "==" resolved as reduce (%left "==").
+    Conflict between rule 36 and token "!=" resolved as reduce (%left "!=").
+    Conflict between rule 36 and token "++" resolved as shift ("!=" < "++").
+    Conflict between rule 36 and token "--" resolved as shift ("!=" < "--").
+    Conflict between rule 36 and token "+=" resolved as reduce ("+=" < "!=").
+    Conflict between rule 36 and token "-=" resolved as reduce ("-=" < "!=").
+    Conflict between rule 36 and token ',' resolved as reduce (',' < "!=").
+    Conflict between rule 36 and token '?' resolved as reduce ('?' < "!=").
+    Conflict between rule 36 and token '=' resolved as reduce ('=' < "!=").
+    Conflict between rule 36 and token '+' resolved as shift ("!=" < '+').
+    Conflict between rule 36 and token '-' resolved as shift ("!=" < '-').
+    Conflict between rule 36 and token '(' resolved as shift ("!=" < '(').
+    Conflict between rule 36 and token '[' resolved as shift ("!=" < '[').
+
+
+State 78
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   31     | expr "+=" expr .  [IDENTIFIER, NUMCONST, STRINGCONST, ',', ':', '*', '&', ')', ';', ']', '!']
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 31 (expr)
+
+    Conflict between rule 31 and token "||" resolved as shift ("+=" < "||").
+    Conflict between rule 31 and token "&&" resolved as shift ("+=" < "&&").
+    Conflict between rule 31 and token "==" resolved as shift ("+=" < "==").
+    Conflict between rule 31 and token "!=" resolved as shift ("+=" < "!=").
+    Conflict between rule 31 and token "++" resolved as shift ("+=" < "++").
+    Conflict between rule 31 and token "--" resolved as shift ("+=" < "--").
+    Conflict between rule 31 and token "+=" resolved as shift (%right "+=").
+    Conflict between rule 31 and token "-=" resolved as shift (%right "-=").
+    Conflict between rule 31 and token ',' resolved as reduce (',' < "+=").
+    Conflict between rule 31 and token '?' resolved as shift (%right '?').
+    Conflict between rule 31 and token '=' resolved as shift (%right '=').
+    Conflict between rule 31 and token '+' resolved as shift ("+=" < '+').
+    Conflict between rule 31 and token '-' resolved as shift ("+=" < '-').
+    Conflict between rule 31 and token '(' resolved as shift ("+=" < '(').
+    Conflict between rule 31 and token '[' resolved as shift ("+=" < '[').
+
+
+State 79
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   32     | expr "-=" expr .  [IDENTIFIER, NUMCONST, STRINGCONST, ',', ':', '*', '&', ')', ';', ']', '!']
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 32 (expr)
+
+    Conflict between rule 32 and token "||" resolved as shift ("-=" < "||").
+    Conflict between rule 32 and token "&&" resolved as shift ("-=" < "&&").
+    Conflict between rule 32 and token "==" resolved as shift ("-=" < "==").
+    Conflict between rule 32 and token "!=" resolved as shift ("-=" < "!=").
+    Conflict between rule 32 and token "++" resolved as shift ("-=" < "++").
+    Conflict between rule 32 and token "--" resolved as shift ("-=" < "--").
+    Conflict between rule 32 and token "+=" resolved as shift (%right "+=").
+    Conflict between rule 32 and token "-=" resolved as shift (%right "-=").
+    Conflict between rule 32 and token ',' resolved as reduce (',' < "-=").
+    Conflict between rule 32 and token '?' resolved as shift (%right '?').
+    Conflict between rule 32 and token '=' resolved as shift (%right '=').
+    Conflict between rule 32 and token '+' resolved as shift ("-=" < '+').
+    Conflict between rule 32 and token '-' resolved as shift ("-=" < '-').
+    Conflict between rule 32 and token '(' resolved as shift ("-=" < '(').
+    Conflict between rule 32 and token '[' resolved as shift ("-=" < '[').
+
+
+State 80
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   37     | expr ',' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, ',', ':', '*', '&', ')', ';', ']', '!']
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 37 (expr)
+
+    Conflict between rule 37 and token "||" resolved as shift (',' < "||").
+    Conflict between rule 37 and token "&&" resolved as shift (',' < "&&").
+    Conflict between rule 37 and token "==" resolved as shift (',' < "==").
+    Conflict between rule 37 and token "!=" resolved as shift (',' < "!=").
+    Conflict between rule 37 and token "++" resolved as shift (',' < "++").
+    Conflict between rule 37 and token "--" resolved as shift (',' < "--").
+    Conflict between rule 37 and token "+=" resolved as shift (',' < "+=").
+    Conflict between rule 37 and token "-=" resolved as shift (',' < "-=").
+    Conflict between rule 37 and token ',' resolved as reduce (%left ',').
+    Conflict between rule 37 and token '?' resolved as shift (',' < '?').
+    Conflict between rule 37 and token '=' resolved as shift (',' < '=').
+    Conflict between rule 37 and token '+' resolved as shift (',' < '+').
+    Conflict between rule 37 and token '-' resolved as shift (',' < '-').
+    Conflict between rule 37 and token '(' resolved as shift (',' < '(').
+    Conflict between rule 37 and token '[' resolved as shift (',' < '[').
+
+
+State 81
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+   46     | expr '?' expr . ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    ','   shift, and go to state 55
+    '?'   shift, and go to state 56
+    ':'   shift, and go to state 94
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+
+State 82
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   28     | expr '=' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, ',', ':', '*', '&', ')', ';', ']', '!']
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 28 (expr)
+
+    Conflict between rule 28 and token "||" resolved as shift ('=' < "||").
+    Conflict between rule 28 and token "&&" resolved as shift ('=' < "&&").
+    Conflict between rule 28 and token "==" resolved as shift ('=' < "==").
+    Conflict between rule 28 and token "!=" resolved as shift ('=' < "!=").
+    Conflict between rule 28 and token "++" resolved as shift ('=' < "++").
+    Conflict between rule 28 and token "--" resolved as shift ('=' < "--").
+    Conflict between rule 28 and token "+=" resolved as shift (%right "+=").
+    Conflict between rule 28 and token "-=" resolved as shift (%right "-=").
+    Conflict between rule 28 and token ',' resolved as reduce (',' < '=').
+    Conflict between rule 28 and token '?' resolved as shift (%right '?').
+    Conflict between rule 28 and token '=' resolved as shift (%right '=').
+    Conflict between rule 28 and token '+' resolved as shift ('=' < '+').
+    Conflict between rule 28 and token '-' resolved as shift ('=' < '-').
+    Conflict between rule 28 and token '(' resolved as shift ('=' < '(').
+    Conflict between rule 28 and token '[' resolved as shift ('=' < '[').
+
+
+State 83
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   29     | expr '+' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', ':', '=', '+', '-', '*', '&', ')', ';', ']', '!']
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 29 (expr)
+
+    Conflict between rule 29 and token "||" resolved as reduce ("||" < '+').
+    Conflict between rule 29 and token "&&" resolved as reduce ("&&" < '+').
+    Conflict between rule 29 and token "==" resolved as reduce ("==" < '+').
+    Conflict between rule 29 and token "!=" resolved as reduce ("!=" < '+').
+    Conflict between rule 29 and token "++" resolved as shift ('+' < "++").
+    Conflict between rule 29 and token "--" resolved as shift ('+' < "--").
+    Conflict between rule 29 and token "+=" resolved as reduce ("+=" < '+').
+    Conflict between rule 29 and token "-=" resolved as reduce ("-=" < '+').
+    Conflict between rule 29 and token ',' resolved as reduce (',' < '+').
+    Conflict between rule 29 and token '?' resolved as reduce ('?' < '+').
+    Conflict between rule 29 and token '=' resolved as reduce ('=' < '+').
+    Conflict between rule 29 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 29 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 29 and token '(' resolved as shift ('+' < '(').
+    Conflict between rule 29 and token '[' resolved as shift ('+' < '[').
+
+
+State 84
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   30     | expr '-' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', '=', '+', '-', '*', '&', '!']
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   40     | '-' expr .  ["||", "&&", "==", "!=", "+=", "-=", ',', '?', '=', '+', '-', ';']
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    "||"      reduce using rule 30 (expr)
+    "||"      [reduce using rule 40 (expr)]
+    "&&"      reduce using rule 30 (expr)
+    "&&"      [reduce using rule 40 (expr)]
+    "=="      reduce using rule 30 (expr)
+    "=="      [reduce using rule 40 (expr)]
+    "!="      reduce using rule 30 (expr)
+    "!="      [reduce using rule 40 (expr)]
+    "+="      reduce using rule 30 (expr)
+    "+="      [reduce using rule 40 (expr)]
+    "-="      reduce using rule 30 (expr)
+    "-="      [reduce using rule 40 (expr)]
+    ','       reduce using rule 30 (expr)
+    ','       [reduce using rule 40 (expr)]
+    '?'       reduce using rule 30 (expr)
+    '?'       [reduce using rule 40 (expr)]
+    '='       reduce using rule 30 (expr)
+    '='       [reduce using rule 40 (expr)]
+    '+'       reduce using rule 30 (expr)
+    '+'       [reduce using rule 40 (expr)]
+    '-'       reduce using rule 30 (expr)
+    '-'       [reduce using rule 40 (expr)]
+    ';'       reduce using rule 40 (expr)
+    $default  reduce using rule 30 (expr)
+
+    Conflict between rule 30 and token "||" resolved as reduce ("||" < '+').
+    Conflict between rule 30 and token "&&" resolved as reduce ("&&" < '+').
+    Conflict between rule 30 and token "==" resolved as reduce ("==" < '+').
+    Conflict between rule 30 and token "!=" resolved as reduce ("!=" < '+').
+    Conflict between rule 30 and token "++" resolved as shift ('+' < "++").
+    Conflict between rule 30 and token "--" resolved as shift ('+' < "--").
+    Conflict between rule 30 and token "+=" resolved as reduce ("+=" < '+').
+    Conflict between rule 30 and token "-=" resolved as reduce ("-=" < '+').
+    Conflict between rule 30 and token ',' resolved as reduce (',' < '+').
+    Conflict between rule 30 and token '?' resolved as reduce ('?' < '+').
+    Conflict between rule 30 and token '=' resolved as reduce ('=' < '+').
+    Conflict between rule 30 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 30 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 30 and token '(' resolved as shift ('+' < '(').
+    Conflict between rule 30 and token '[' resolved as shift ('+' < '[').
+    Conflict between rule 40 and token "++" resolved as shift (%right "++").
+    Conflict between rule 40 and token "--" resolved as shift (%right "--").
+    Conflict between rule 40 and token '(' resolved as shift ('&' < '(').
+    Conflict between rule 40 and token '[' resolved as shift ('&' < '[').
+
+
+State 85
+
+   26 expr: expr '(' ')' .
+
+    $default  reduce using rule 26 (expr)
+
+
+State 86
+
+   24 expr: '(' expr . ')'
+   25     | expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   27     | expr '(' expr . ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    ','   shift, and go to state 55
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+    ')'   shift, and go to state 95
+
+
+State 87
+
+   25 expr: expr . '[' expr ']'
+   25     | expr '[' expr . ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    ','   shift, and go to state 55
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+    ']'   shift, and go to state 96
+
+
+State 88
+
+   13 stmt: expr expr ';' .
+
+    $default  reduce using rule 13 (stmt)
+
+
+State 89
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   30     | expr '-' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "+=", "-=", ',', '?', ':', '=', '+', '-', '*', '&', ')', ';', ']', '!']
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 30 (expr)
+
+    Conflict between rule 30 and token "||" resolved as reduce ("||" < '+').
+    Conflict between rule 30 and token "&&" resolved as reduce ("&&" < '+').
+    Conflict between rule 30 and token "==" resolved as reduce ("==" < '+').
+    Conflict between rule 30 and token "!=" resolved as reduce ("!=" < '+').
+    Conflict between rule 30 and token "++" resolved as shift ('+' < "++").
+    Conflict between rule 30 and token "--" resolved as shift ('+' < "--").
+    Conflict between rule 30 and token "+=" resolved as reduce ("+=" < '+').
+    Conflict between rule 30 and token "-=" resolved as reduce ("-=" < '+').
+    Conflict between rule 30 and token ',' resolved as reduce (',' < '+').
+    Conflict between rule 30 and token '?' resolved as reduce ('?' < '+').
+    Conflict between rule 30 and token '=' resolved as reduce ('=' < '+').
+    Conflict between rule 30 and token '+' resolved as reduce (%left '+').
+    Conflict between rule 30 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 30 and token '(' resolved as shift ('+' < '(').
+    Conflict between rule 30 and token '[' resolved as shift ('+' < '[').
+
+
+State 90
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   27     | expr '(' expr . ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    ','   shift, and go to state 55
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+    ')'   shift, and go to state 97
+
+
+State 91
+
+    8 stmt: . com_stmt '}'
+    9     | . "if" '(' expr ')' stmt
+   10     | . "while" '(' expr ')' stmt
+   10     | "while" '(' expr ')' . stmt
+   11     | . "return" expr ';'
+   12     | . var_defs expr ';'
+   13     | . expr expr ';'
+   14     | . ';'
+   15 com_stmt: . '{'
+   16         | . com_stmt stmt
+   17 var_defs: . "var" var_def1
+   18         | . var_defs ',' var_def1
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    "return"     shift, and go to state 10
+    "while"      shift, and go to state 11
+    "if"         shift, and go to state 12
+    "var"        shift, and go to state 13
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    ';'          shift, and go to state 23
+    '{'          shift, and go to state 24
+    '!'          shift, and go to state 25
+
+    stmt      go to state 98
+    com_stmt  go to state 27
+    var_defs  go to state 28
+    expr      go to state 29
+
+
+State 92
+
+    8 stmt: . com_stmt '}'
+    9     | . "if" '(' expr ')' stmt
+    9     | "if" '(' expr ')' . stmt
+   10     | . "while" '(' expr ')' stmt
+   11     | . "return" expr ';'
+   12     | . var_defs expr ';'
+   13     | . expr expr ';'
+   14     | . ';'
+   15 com_stmt: . '{'
+   16         | . com_stmt stmt
+   17 var_defs: . "var" var_def1
+   18         | . var_defs ',' var_def1
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+
+    "return"     shift, and go to state 10
+    "while"      shift, and go to state 11
+    "if"         shift, and go to state 12
+    "var"        shift, and go to state 13
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    ';'          shift, and go to state 23
+    '{'          shift, and go to state 24
+    '!'          shift, and go to state 25
+
+    stmt      go to state 99
+    com_stmt  go to state 27
+    var_defs  go to state 28
+    expr      go to state 29
+
+
+State 93
+
+   19 var_def1: IDENTIFIER '=' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, ',', '*', '&', '!']
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 19 (var_def1)
+
+    Conflict between rule 19 and token "++" resolved as shift ('=' < "++").
+    Conflict between rule 19 and token "--" resolved as shift ('=' < "--").
+    Conflict between rule 19 and token ',' resolved as reduce (',' < '=').
+    Conflict between rule 19 and token '-' resolved as shift ('=' < '-').
+    Conflict between rule 19 and token '(' resolved as shift ('=' < '(').
+
+
+State 94
+
+   21 expr: . NUMCONST
+   22     | . STRINGCONST
+   23     | . IDENTIFIER
+   24     | . '(' expr ')'
+   25     | . expr '[' expr ']'
+   26     | . expr '(' ')'
+   27     | . expr '(' expr ')'
+   28     | . expr '=' expr
+   29     | . expr '+' expr
+   30     | . expr '-' expr
+   31     | . expr "+=" expr
+   32     | . expr "-=" expr
+   33     | . expr "||" expr
+   34     | . expr "&&" expr
+   35     | . expr "==" expr
+   36     | . expr "!=" expr
+   37     | . expr ',' expr
+   38     | . '&' expr
+   39     | . '*' expr
+   40     | . '-' expr
+   41     | . '!' expr
+   42     | . "++" expr
+   43     | . "--" expr
+   44     | . expr "++"
+   45     | . expr "--"
+   46     | . expr '?' expr ':' expr
+   46     | expr '?' expr ':' . expr
+
+    IDENTIFIER   shift, and go to state 14
+    NUMCONST     shift, and go to state 15
+    STRINGCONST  shift, and go to state 16
+    "++"         shift, and go to state 17
+    "--"         shift, and go to state 18
+    '-'          shift, and go to state 19
+    '*'          shift, and go to state 20
+    '&'          shift, and go to state 21
+    '('          shift, and go to state 22
+    '!'          shift, and go to state 25
+
+    expr  go to state 100
+
+
+State 95
+
+   24 expr: '(' expr ')' .  ["||", "&&", "==", "!=", "++", "--", "+=", "-=", ',', '?', '=', '+', '-', '(', '[', ';']
+   27     | expr '(' expr ')' .  [IDENTIFIER, NUMCONST, STRINGCONST, "||", "&&", "==", "!=", "++", "--", "+=", "-=", ',', '?', '=', '+', '-', '*', '&', '(', '[', '!']
+
+    IDENTIFIER   reduce using rule 27 (expr)
+    NUMCONST     reduce using rule 27 (expr)
+    STRINGCONST  reduce using rule 27 (expr)
+    "||"         reduce using rule 24 (expr)
+    "||"         [reduce using rule 27 (expr)]
+    "&&"         reduce using rule 24 (expr)
+    "&&"         [reduce using rule 27 (expr)]
+    "=="         reduce using rule 24 (expr)
+    "=="         [reduce using rule 27 (expr)]
+    "!="         reduce using rule 24 (expr)
+    "!="         [reduce using rule 27 (expr)]
+    "++"         reduce using rule 24 (expr)
+    "++"         [reduce using rule 27 (expr)]
+    "--"         reduce using rule 24 (expr)
+    "--"         [reduce using rule 27 (expr)]
+    "+="         reduce using rule 24 (expr)
+    "+="         [reduce using rule 27 (expr)]
+    "-="         reduce using rule 24 (expr)
+    "-="         [reduce using rule 27 (expr)]
+    ','          reduce using rule 24 (expr)
+    ','          [reduce using rule 27 (expr)]
+    '?'          reduce using rule 24 (expr)
+    '?'          [reduce using rule 27 (expr)]
+    '='          reduce using rule 24 (expr)
+    '='          [reduce using rule 27 (expr)]
+    '+'          reduce using rule 24 (expr)
+    '+'          [reduce using rule 27 (expr)]
+    '-'          reduce using rule 24 (expr)
+    '-'          [reduce using rule 27 (expr)]
+    '*'          reduce using rule 27 (expr)
+    '&'          reduce using rule 27 (expr)
+    '('          reduce using rule 24 (expr)
+    '('          [reduce using rule 27 (expr)]
+    '['          reduce using rule 24 (expr)
+    '['          [reduce using rule 27 (expr)]
+    '!'          reduce using rule 27 (expr)
+    $default     reduce using rule 24 (expr)
+
+
+State 96
+
+   25 expr: expr '[' expr ']' .
+
+    $default  reduce using rule 25 (expr)
+
+
+State 97
+
+   27 expr: expr '(' expr ')' .
+
+    $default  reduce using rule 27 (expr)
+
+
+State 98
+
+   10 stmt: "while" '(' expr ')' stmt .
+
+    $default  reduce using rule 10 (stmt)
+
+
+State 99
+
+    9 stmt: "if" '(' expr ')' stmt .
+
+    $default  reduce using rule 9 (stmt)
+
+
+State 100
+
+   25 expr: expr . '[' expr ']'
+   26     | expr . '(' ')'
+   27     | expr . '(' expr ')'
+   28     | expr . '=' expr
+   29     | expr . '+' expr
+   30     | expr . '-' expr
+   31     | expr . "+=" expr
+   32     | expr . "-=" expr
+   33     | expr . "||" expr
+   34     | expr . "&&" expr
+   35     | expr . "==" expr
+   36     | expr . "!=" expr
+   37     | expr . ',' expr
+   44     | expr . "++"
+   45     | expr . "--"
+   46     | expr . '?' expr ':' expr
+   46     | expr '?' expr ':' expr .  [IDENTIFIER, NUMCONST, STRINGCONST, ',', ':', '*', '&', ')', ';', ']', '!']
+
+    "||"  shift, and go to state 47
+    "&&"  shift, and go to state 48
+    "=="  shift, and go to state 49
+    "!="  shift, and go to state 50
+    "++"  shift, and go to state 63
+    "--"  shift, and go to state 64
+    "+="  shift, and go to state 53
+    "-="  shift, and go to state 54
+    '?'   shift, and go to state 56
+    '='   shift, and go to state 57
+    '+'   shift, and go to state 58
+    '-'   shift, and go to state 65
+    '('   shift, and go to state 66
+    '['   shift, and go to state 61
+
+    $default  reduce using rule 46 (expr)
+
+    Conflict between rule 46 and token "||" resolved as shift (':' < "||").
+    Conflict between rule 46 and token "&&" resolved as shift (':' < "&&").
+    Conflict between rule 46 and token "==" resolved as shift (':' < "==").
+    Conflict between rule 46 and token "!=" resolved as shift (':' < "!=").
+    Conflict between rule 46 and token "++" resolved as shift (':' < "++").
+    Conflict between rule 46 and token "--" resolved as shift (':' < "--").
+    Conflict between rule 46 and token "+=" resolved as shift (%right "+=").
+    Conflict between rule 46 and token "-=" resolved as shift (%right "-=").
+    Conflict between rule 46 and token ',' resolved as reduce (',' < ':').
+    Conflict between rule 46 and token '?' resolved as shift (%right '?').
+    Conflict between rule 46 and token '=' resolved as shift (%right '=').
+    Conflict between rule 46 and token '+' resolved as shift (':' < '+').
+    Conflict between rule 46 and token '-' resolved as shift (':' < '-').
+    Conflict between rule 46 and token '(' resolved as shift (':' < '(').
+    Conflict between rule 46 and token '[' resolved as shift (':' < '[').
